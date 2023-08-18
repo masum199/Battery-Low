@@ -1,13 +1,31 @@
+/* Resetting default margin and padding on body and html */
+body, html {
+  margin: 0;
+  padding: 0;
+}
 
-.form-container{
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  grid-gap: 10px;
-  justify-content: center;
+/* Centering the content of main-container */
+.main-container {
+  display: flex;
+  flex-direction: column;
   align-items: center;
 }
 
+
+
 input{
-  margin: 10px 10px 10px 10px;
+  margin-bottom: 10px;
+  width: 100%;
 }
 
+.second-container{
+ display: flex;
+ flex-direction: column;
+ align-items: center;
+}
+.form2{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  align-items: center;
+}
