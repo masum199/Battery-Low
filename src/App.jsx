@@ -6,6 +6,12 @@ import Papa from 'papaparse';
 
 function App() {
 const [firstInput, setFirstInput] = useState(undefined)
+const [secondInput, setSecondInput]=useState(undefined)
+const [showFirstSection, setShowFirstSection] = useState(true);
+  const [showSecondSection, setShowSecondSection] = useState(false);
+  const [showThirdSection, setShowThirdSection] = useState(false);
+
+
   const HandleFirstSubmit = event => {
     event.preventDefault();
     const form = event.target;
@@ -15,10 +21,10 @@ const [firstInput, setFirstInput] = useState(undefined)
     const contractor = form.contractor.value;
     const inputValue = {projectName, projectDescription, client,contractor}
     setFirstInput(inputValue)
+    setShowFirstSection(false)
+    setShowSecondSection(true)
     
   }
-  console.log(firstInput);
-
 
   // second form functions
   const [data, setData] = useState([]);
@@ -61,48 +67,106 @@ const [firstInput, setFirstInput] = useState(undefined)
     };
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+      e.preventDefault()
+        setShowSecondSection(false)
+        setShowThirdSection(true)
+        const form = e.target
+        const first = form.first.value
+        const second = form.second.value
+        const third  = form.third.value
+        const fourth = form.fourth.value
+        const fifth = form.fifth.value
+        const sixth = form.sixth.value
+        const secondformInput = {first, second, third, fourth,fifth,sixth}
+        setSecondInput(secondformInput)
+        
     };
+    
 
   return (
     <section>
-      <div className='main-container'>
+      {showFirstSection && <div className='main-container'>
       <form onSubmit={HandleFirstSubmit} className='form1'>
-       <div style={{display:"flex" }}>
-      <span>p</span> <input className='' type="text" name='projectName' placeholder='Project Name' required />
+       <div>
+      <span>ProjectName</span> <input className='' type="text" name='projectName' placeholder='Project Name' required />
        </div>
-          <input type="text" name="projectDescription" placeholder='Project Description' id="" />
-          <input type="text" name="client" placeholder='client' id="" />
-          <input type="text" name="contractor" placeholder='contractor' id="" />
           <div>
+          <span>&nbsp;&nbsp;Description </span><input type="text" name="projectDescription" placeholder='Project Description' id="" required/>
+          </div>
+          <div>
+         <span>&nbsp;&nbsp;Client</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="text" name="client" placeholder='client' id="" required/>
+          </div>
+          <div>
+          <span>&nbsp;&nbsp;Contractor</span><input type="text" name="contractor" placeholder='contractor' id="" required/>
           </div>
           <input type="submit" value="submit" className='button'/>
         </form>
-      </div>
+      </div>}
 
 
        
 
     
      {/* second form */}
-        <div className=''>
-            <div style={{ marginTop: "30px" }} className='second-container'>
-                <form onSubmit={handleSubmit} className='form2'>
-                    <input type="text" value={firstInput !== undefined ? firstInput.projectName : ""} readOnly/>
-                    <input type="text" value={firstInput !== undefined ? firstInput.projectDescription : ""} readOnly/>
-                    <input type="text" value={firstInput !== undefined ? firstInput.client : ""} readOnly/>
-                    <input type="text" value={firstInput !== undefined ? firstInput.contractor : ""} readOnly/>
-                    <input type="file" accept='.csv' onChange={handleFileUpload} />
-                    <input type="text" name="" defaultValue={maxX !== undefined ? maxX : ""} id="" />
-                    <input type="text" name="" defaultValue={minX !== undefined ? minX : ""} id="" />
-                    <input type="text" name="" defaultValue={maxY !== undefined ? maxY : ""} id="" />
-                    <input type="text" name="" defaultValue={minY !== undefined ? minY : ""} id="" />
-                    <input type="text" name="" defaultValue={maxZ !== undefined ? maxZ : ""} id="" />
-                    <input type="text" name="" defaultValue={minZ !== undefined ? minZ : ""} id="" />
-                    <input type="submit" value="submit" />
-                </form>
-            </div>
-        </div>
+        {
+          showSecondSection && <div className=' '>
+          <div style={{ marginTop: "30px" }} className='main-container'>
+              <form onSubmit={handleSubmit} className='form2'>
+                  <input type="text" value={firstInput !== undefined ? firstInput.projectName : ""} readOnly required/>
+                  <input type="text" value={firstInput !== undefined ? firstInput.projectDescription : ""} readOnly required/>
+                  <input type="text" value={firstInput !== undefined ? firstInput.client : ""} readOnly required/>
+                  <input type="text" value={firstInput !== undefined ? firstInput.contractor : ""} readOnly required/>
+                  <input type="file" accept='.csv' onChange={handleFileUpload} />
+                  <input type="text" name="first" defaultValue={maxX !== undefined ? maxX : ""} id="" required/>
+                  <input type="text" name="second" defaultValue={minX !== undefined ? minX : ""} id="" required/>
+                  <input type="text" name="third" defaultValue={maxY !== undefined ? maxY : ""} id="" required/>
+                  <input type="text" name="fourth" defaultValue={minY !== undefined ? minY : ""} id="" required/>
+                  <input type="text" name="fifth" defaultValue={maxZ !== undefined ? maxZ : ""} id="" required/>
+                  <input type="text" name="sixth" defaultValue={minZ !== undefined ? minZ : ""} id="" required/>
+                  <input type="submit" value="submit" />
+              </form>
+          </div>
+      </div>
+        }
+
+
+        {/* table section */}
+        {
+          showThirdSection && <div className='main-container'>
+          <div>
+    <table className='table'>
+      <thead>
+        <tr>
+          <th className=''>ProjectName</th>
+          <th>Description</th>
+          <th>Client</th>
+          <th>Contractor</th>
+          <th>Max-X</th>
+          <th>Min-X</th>
+          <th>Max-Y</th>
+          <th>Min-Y</th>
+          <th>Max-Z</th>
+          <th>Min-Z</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{firstInput !== undefined ? firstInput.projectName : ""}</td>
+          <td>{firstInput !== undefined ? firstInput.projectDescription : ""}</td>
+          <td>{firstInput !== undefined ? firstInput.client : ""}</td>
+          <td>{firstInput !== undefined ? firstInput.contractor : ""}</td>
+          <td>{maxX !== undefined ? maxX : secondInput.first}</td>
+          <td>{minX !== undefined ? minX : secondInput.second}</td>
+          <td>{maxY !== undefined ? maxY : secondInput.third}</td>
+          <td>{minY !== undefined ? minY : secondInput.fourth}</td>
+          <td>{maxZ !== undefined ? maxZ : secondInput.fifth}</td>
+          <td>{minZ !== undefined ? minZ : secondInput.sixth}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+          </div>
+        }
     
       </section>
   );
